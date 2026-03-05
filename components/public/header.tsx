@@ -1,9 +1,7 @@
-import {useState} from "react";
 import {Menu, X} from "lucide-react";
 import {Button} from "@/components/ui/button";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const listMenu = [
     {
       name: "Người phỏng vấn",
@@ -51,29 +49,29 @@ const Header = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-slate-900" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X /> : <Menu />}
-        </button>
+        {/*<button className="md:hidden text-slate-900" onClick={() => setIsOpen(!isOpen)}>*/}
+        {/*  {isOpen ? <X /> : <Menu />}*/}
+        {/*</button>*/}
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 p-6 flex flex-col gap-4 shadow-xl">
-          {['How it works', 'Benefits', 'Interviewers', 'Pricing'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-              className="text-lg font-semibold text-slate-600"
-              onClick={() => setIsOpen(false)}
-            >
-              {item}
-            </a>
-          ))}
-          <hr className="border-slate-100" />
-          <button className="w-full py-3 bg-primary text-white font-bold rounded-lg">Get Started</button>
-          <button className="w-full py-3 text-slate-900 font-bold">Login</button>
-        </div>
-      )}
+      {/*{isOpen && (*/}
+      {/*  <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 p-6 flex flex-col gap-4 shadow-xl">*/}
+      {/*    {['How it works', 'Benefits', 'Interviewers', 'Pricing'].map((item) => (*/}
+      {/*      <a*/}
+      {/*        key={item}*/}
+      {/*        href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}*/}
+      {/*        className="text-lg font-semibold text-slate-600"*/}
+      {/*        onClick={() => setIsOpen(false)}*/}
+      {/*      >*/}
+      {/*        {item}*/}
+      {/*      </a>*/}
+      {/*    ))}*/}
+      {/*    <hr className="border-slate-100" />*/}
+      {/*    <button className="w-full py-3 bg-primary text-white font-bold rounded-lg">Get Started</button>*/}
+      {/*    <button className="w-full py-3 text-slate-900 font-bold">Login</button>*/}
+      {/*  </div>*/}
+      {/*)}*/}
     </nav>
   );
 };
