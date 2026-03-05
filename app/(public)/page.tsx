@@ -416,14 +416,14 @@ export default function HomePage() {
     <div className="min-h-screen">
       <Header />
       <main>
-        <Hero />
-        <HowItWorks />
-        <Benefits />
-        <Interviewers />
-        <Testimonial />
-        <CTA />
+        {/*<Hero />*/}
+        {/*<HowItWorks />*/}
+        {/*<Benefits />*/}
+        {/*<Interviewers />*/}
+        {/*<Testimonial />*/}
+        {/*<CTA />*/}
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 }

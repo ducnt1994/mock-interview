@@ -1,8 +1,27 @@
 import {useState} from "react";
 import {Menu, X} from "lucide-react";
+import {Button} from "@/components/ui/button";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const listMenu = [
+    {
+      name: "Người phỏng vấn",
+      href: "/danh-sach-nguoi-phong-van"
+    },
+    {
+      name: "Bài viết",
+      href: "/bai-viet"
+    },
+    {
+      name: "Trở thành người phỏng vấn",
+      href: "/tro-thanh-nguoi-phong-van"
+    },
+    {
+      name: "Liên hệ",
+      href: "/lien-he"
+    },
+  ];
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
@@ -14,23 +33,20 @@ const Header = () => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           <div className="flex gap-6">
-            {['How it works', 'Benefits', 'Interviewers', 'Pricing'].map((item) => (
+            {listMenu.map((item) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                key={item.name}
+                href={`#${item.href}`}
                 className="text-sm font-semibold text-slate-600 hover:text-primary transition-colors"
               >
-                {item}
+                {item.name}
               </a>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <button className="px-5 py-2 text-sm font-bold text-slate-900 hover:text-primary transition-colors">
-              Login
-            </button>
-            <button className="px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all">
-              Get Started
-            </button>
+            <Button variant={'default'} className={'shadow-2xl'} size={'lg'}>
+              <p className={'font-bold'}>Đặt lịch ngay</p>
+            </Button>
           </div>
         </div>
 
