@@ -11,7 +11,8 @@ const config: Config = {
         "primary": {
           "500": "#2F7F33"
         },
-        "secondary": "#D5E5D6"
+        "secondary": "#D5E5D6",
+        "neutral-landing": "#F1F5F9",
       }
     },
   },

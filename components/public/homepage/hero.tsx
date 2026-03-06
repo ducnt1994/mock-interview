@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Hero = () => {
   return (
-    <section className="section-padding overflow-hidden mt-24 mb-20">
+    <section className="section-padding overflow-hidden pt-24 pb-20 bg-neutral-landing">
       <div className="max-w-7xl mx-auto flex gap-16">
         <div className="flex flex-col gap-8 flex-1">
           <div className="space-y-4">
@@ -18,7 +18,7 @@ const Hero = () => {
           </div>
 
           <div className="p-2 bg-white rounded-2xl border border-slate-100">
-            <form className="flex flex-col md:flex-row gap-2">
+            <form className="flex flex-col md:flex-row gap-2 items-center">
               <div className="flex-1 flex items-center gap-3 px-4 py-3 border-b md:border-b-0 md:border-r border-slate-100">
                 <Globe className="w-5 h-5 text-slate-400" />
                 <input
