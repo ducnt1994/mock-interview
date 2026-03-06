@@ -1,11 +1,12 @@
 import {Globe, Search, CheckCircle2} from "lucide-react";
-import FadeIn from "@/components/shared/FadeIn";
+import {Button} from "@/components/ui/button";
+import Image from "next/image";
 
 const Hero = () => {
   return (
-    <section className="section-padding overflow-hidden">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-        <FadeIn className="flex flex-col gap-8">
+    <section className="section-padding overflow-hidden mt-24 mb-20">
+      <div className="max-w-7xl mx-auto flex gap-16">
+        <div className="flex flex-col gap-8 flex-1">
           <div className="space-y-4">
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-primary">Elevate Your Career</span>
             <h1 className="text-5xl md:text-7xl font-black text-slate-900 leading-[1.1] tracking-tight">
@@ -16,7 +17,7 @@ const Hero = () => {
             </p>
           </div>
 
-          <div className="p-2 bg-white rounded-2xl shadow-2xl shadow-slate-200 border border-slate-100">
+          <div className="p-2 bg-white rounded-2xl border border-slate-100">
             <form className="flex flex-col md:flex-row gap-2">
               <div className="flex-1 flex items-center gap-3 px-4 py-3 border-b md:border-b-0 md:border-r border-slate-100">
                 <Globe className="w-5 h-5 text-slate-400" />
@@ -34,10 +35,10 @@ const Hero = () => {
                   className="w-full bg-transparent border-none focus:ring-0 text-slate-900 placeholder-slate-400 font-medium"
                 />
               </div>
-              <button className="px-8 py-3 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all flex items-center justify-center gap-2">
+              <Button size={'lg'}>
                 <Search className="w-5 h-5" />
-                Tìm kiếm
-              </button>
+                <span className={'font-bold'}>Tìm kiếm</span>
+              </Button>
             </form>
           </div>
 
@@ -49,31 +50,40 @@ const Hero = () => {
             </div>
             <p>Joined by <span className="font-bold text-slate-900">10,000+</span> candidates this month</p>
           </div>
-        </FadeIn>
+        </div>
 
-        <FadeIn className={'relative'}>
-          <div className="absolute -inset-4 bg-primary/10 rounded-[2rem] blur-3xl" />
-          <div className="relative aspect-square md:aspect-[4/5] lg:aspect-square rounded-3xl overflow-hidden shadow-2xl border border-white/50">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnA7SNzehpfBuAJZW7weO310jVLXtr5nxbDfyk9EVdnB_OFo0jfzYZdUSqsyyU5Mjz2jZVkaPf_COEYjcCDdBtFjxnHF5jsZP4-6qO7pCZpqI8X-lcBKBuQcr2Y9qTDLoOV0qSWTvzB-UvQmxo0yDdzNuuAFJmVTT8hWAAwJPVsdTwDCfxDh6Yqd0Kd8VkgNeDACfPs-LUaNKjLWf11HU7Gz0PutIna-ixFogmz2nsu4WBPcnoCjycE0Z68RbXASxAmY559IaLN_Y"
-              alt="Professional Interview"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 p-5 glass-card rounded-2xl">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
-                  <CheckCircle2 className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Live Session</p>
-                  <p className="text-sm font-bold text-slate-900">Feedback: Strong technical communication</p>
+        <div className={'relative'}>
+          <div
+            className="relative aspect-square rounded-3xl overflow-hidden bg-primary-500/20 border border-primary-500/30"
+            id="right-side"
+          >
+            <div className="relative m-4 w-[536px] h-[536px]">
+              <Image
+                src="/images/landing-page/hero.webp"
+                alt="Hero Image"
+                fill
+                className="object-cover rounded-2xl"
+              />
+
+              <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/30 bg-white/55 backdrop-blur-xl shadow-xl">
+                <div className="flex items-center gap-4 p-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/20">
+                    <CheckCircle2 className="h-6 w-6 text-green-600" />
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                      Live Session
+                    </p>
+                    <p className="text-sm font-bold text-slate-900">
+                      Feedback: Strong technical communication
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </FadeIn>
+        </div>
       </div>
     </section>
   );
