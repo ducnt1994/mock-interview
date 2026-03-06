@@ -1,14 +1,13 @@
-import {Globe, Mail, Share2, ShieldCheck} from "lucide-react";
+import {Globe, Mail, Share2} from "lucide-react";
 import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-slate-100 pt-24 pb-12 px-6 md:px-12 lg:px-24">
+    <footer className="bg-white border-t border-slate-100 pt-24 pb-12">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-5 gap-16 mb-20">
         <div className="col-span-2 space-y-6">
           <div className="flex items-center gap-2 text-primary">
-            <ShieldCheck className="w-8 h-8" />
-            <span className="text-2xl font-bold tracking-tight text-slate-900">InterviewPrep</span>
+            <span className="text-2xl font-bold tracking-tight text-slate-900">Khu vực logo</span>
           </div>
           <p className="text-slate-500 leading-relaxed max-w-sm">
             Connecting ambitious candidates with top-tier industry experts for realistic mock interviews and personalized feedback.
