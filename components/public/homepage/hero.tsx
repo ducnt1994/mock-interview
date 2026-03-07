@@ -8,7 +8,7 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto flex gap-16">
         <div className="flex flex-col gap-8 flex-1">
           <div className="space-y-4">
-            <span className="text-xs font-bold tracking-[0.2em] uppercase text-primary">Elevate Your Career</span>
+            <span className="text-xs font-bold tracking-[0.2em] text-primary-500 uppercase">Elevate Your Career</span>
             <h1 className="text-5xl md:text-7xl font-black text-slate-900 leading-[1.1] tracking-tight">
               Master Your Next Big Interview with <span className="text-primary">Pros</span>
             </h1>

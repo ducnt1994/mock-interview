@@ -9,7 +9,17 @@ const config: Config = {
     extend: {
       colors: {
         "primary": {
-          "500": "#2F7F33"
+          900: "#0E2D11",
+          800: "#16471B",
+          700: "#1F5E25",
+          600: "#28752E",
+          500: "#2E7D32",
+          400: "#4F9B53",
+          300: "#76B77A",
+          200: "#A2D2A4",
+          100: "#CBE7CC",
+          50: "#E8F5E9",
+          25: "#F3FBF4"
         },
         "secondary": "#D5E5D6",
         "neutral-landing": "#F1F5F9",
