@@ -23,8 +23,8 @@ const HowItWorks = () => {
     <section id="how-it-works" className="section-padding bg-white px-4 xl:px-0 py-4 md:py-10 lg:py-20">
       <div className="max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-8 md:mb-16">
-          {/* <span className="text-xs font-bold tracking-[0.2em] uppercase text-primary">Quy trình</span> */}
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Quy trình hoạt động</h2>
+          <span className="text-primary-500 text-xs font-bold tracking-[0.2em] uppercase text-primary">Quy trình</span>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Cách thức hoạt động</h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">Chỉ 3 bước đơn giản để luyện tập và tự tin hơn trong mỗi buổi phỏng vấn.</p>
         </div>
 
