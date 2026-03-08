@@ -3,10 +3,10 @@ import { Expert } from "./types";
 
 export default function ExperienceSection({ expert }: { expert: Expert }) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 md:p-6">
+    <div>
       <div className="grid md:grid-cols-2 gap-8">
         {/* Experience */}
-        <div className="space-y-4">
+        <div className="space-y-4 bg-white rounded-2xl border border-slate-100 shadow-sm p-5 md:p-6">
           <h2 className="text-base md:text-lg font-black text-slate-900 flex items-center gap-2">
             <Briefcase className="w-5 h-5 text-primary-500" />
             Kinh nghiệm
@@ -31,7 +31,7 @@ export default function ExperienceSection({ expert }: { expert: Expert }) {
         </div>
 
         {/* Education */}
-        <div className="space-y-4">
+        <div className="space-y-4 bg-white rounded-2xl border border-slate-100 shadow-sm p-5 md:p-6">
           <h2 className="text-base md:text-lg font-black text-slate-900 flex items-center gap-2">
             <GraduationCap className="w-5 h-5 text-primary-500" />
             Học vấn & Chứng chỉ
