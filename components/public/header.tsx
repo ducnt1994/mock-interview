@@ -1,5 +1,5 @@
-import {Menu, X} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const listMenu = [
@@ -22,7 +22,7 @@ const Header = () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 xl:px-0">
       <div className="max-w-7xl mx-auto px-3 md:px-0 py-4 flex items-center justify-between">
         <div className="flex gap-2 text-primary">
           <span className="text-xl font-bold tracking-tight text-slate-900">Khu vực logo</span>

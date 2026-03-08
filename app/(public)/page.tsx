@@ -15,10 +15,10 @@ export default function HomePage() {
       <main>
         <Hero />
         <HowItWork />
-      {/*  <Benefits />*/}
-      {/*  <Interviewers />*/}
-      {/*  <Testimonial />*/}
-      {/*  <CTA />*/}
+        <Benefits />
+        {/*  <Interviewers />*/}
+        {/*  <Testimonial />*/}
+        {/*  <CTA />*/}
       </main>
       <Footer />
     </div>

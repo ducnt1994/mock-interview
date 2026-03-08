@@ -1,26 +1,28 @@
-import {Globe, Search, CheckCircle2} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import { Globe, Search, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 
 const Hero = () => {
   return (
-    <section className="section-padding overflow-hidden pt-24 pb-20 bg-neutral-landing">
-      <div className="max-w-7xl mx-auto flex gap-16">
-        <div className="flex flex-col gap-8 flex-1">
+    <section className="section-padding overflow-hidden pt-4 md:pt-10 lg:pt-20 pb-4 md:pb-10 lg:pb-20 bg-neutral-landing px-4 xl:px-0">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 lg:gap-16">
+        {/* Left: Text content */}
+        <div className="flex flex-col gap-4 md:gap-8 flex-1 w-full">
           <div className="space-y-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-primary-500 uppercase">Elevate Your Career</span>
-            <h1 className="text-5xl md:text-7xl font-black text-slate-900 leading-[1.1] tracking-tight">
-              Master Your Next Big Interview with <span className="text-primary">Pros</span>
+            <span className="text-xs font-bold tracking-[0.2em] text-primary-500 uppercase">Nâng tầm sự nghiệp của bạn</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 leading-[1.1] tracking-tight">
+              Chinh phục mọi buổi phỏng vấn cùng <span className="text-primary-500">chuyên gia</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">
-              Connect with industry experts for realistic mock interviews and actionable feedback to land your dream job at top-tier global companies.
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">
+              Luyện phỏng vấn thực tế cùng chuyên gia trong ngành. Nhận phản hồi chi tiết để tự tin ứng tuyển vào các công ty hàng đầu.
             </p>
           </div>
 
           <div className="p-2 bg-white rounded-2xl border border-slate-100">
-            <form className="flex flex-col md:flex-row gap-2 items-center">
-              <div className="flex-1 flex items-center gap-3 px-4 py-3 border-b md:border-b-0 md:border-r border-slate-100">
-                <Globe className="w-5 h-5 text-slate-400" />
+            <form className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+              <div className="flex-1 flex items-center gap-3 px-4 py-3 border-b sm:border-b-0 sm:border-r border-slate-100">
+                <Globe className="w-5 h-5 text-slate-400 shrink-0" />
                 <input
                   type="text"
                   placeholder="Ngành nghề"
@@ -28,14 +30,14 @@ const Hero = () => {
                 />
               </div>
               <div className="flex-1 flex items-center gap-3 px-4 py-3">
-                <Search className="w-5 h-5 text-slate-400" />
+                <Search className="w-5 h-5 text-slate-400 shrink-0" />
                 <input
                   type="text"
                   placeholder="Vị trí"
                   className="w-full bg-transparent border-none focus:ring-0 text-slate-900 placeholder-slate-400 font-medium"
                 />
               </div>
-              <Button size={'lg'}>
+              <Button size={'lg'} className="w-full sm:w-auto">
                 <Search className="w-5 h-5" />
                 <span className={'font-bold'}>Tìm kiếm</span>
               </Button>
@@ -43,40 +45,48 @@ const Hero = () => {
           </div>
 
           <div className="flex items-center gap-4 text-sm text-slate-500">
-            <div className="flex -space-x-3">
+            <div className="flex -space-x-3 shrink-0">
               {[1, 2, 3].map((i) => (
-                <div key={i} className={`w-10 h-10 rounded-full border-2 border-white bg-slate-${i*100 + 100}`} />
+                <Avatar key={i}>
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@shadcn"
+                    className="grayscale"
+                    width={40}
+                    height={40}
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
               ))}
             </div>
-            <p>Joined by <span className="font-bold text-slate-900">10,000+</span> candidates this month</p>
+            <p>Hơn <span className="font-bold text-slate-900">10.000</span> ứng viên đã tham gia trong tháng này</p>
           </div>
         </div>
 
-        <div className={'relative'}>
-          <div
-            className="relative aspect-square rounded-3xl overflow-hidden bg-primary-500/20 border border-primary-500/30"
-            id="right-side"
-          >
-            <div className="relative m-4 w-[536px] h-[536px]">
+        {/* Right: Hero image */}
+        <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none lg:w-[580px] shrink-0 lg:block hidden">
+
+          <div className="relative aspect-square rounded-3xl" id="right-side">
+            <div className="relative m-4 h-[calc(100%-2rem)] drop-shadow-2xl">
               <Image
                 src="/images/landing-page/hero.webp"
-                alt="Hero Image"
+                alt="Luyện phỏng vấn thực tế cùng chuyên gia"
                 fill
                 className="object-cover rounded-2xl"
               />
 
-              <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/30 bg-white/55 backdrop-blur-xl shadow-xl">
-                <div className="flex items-center gap-4 p-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/20">
-                    <CheckCircle2 className="h-6 w-6 text-green-600" />
+              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 rounded-2xl border border-white/30 bg-white/55 backdrop-blur-xl shadow-xl">
+                <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4">
+                  <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-green-500/20">
+                    <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
                   </div>
 
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                      Live Session
+                      Phiên trực tiếp
                     </p>
-                    <p className="text-sm font-bold text-slate-900">
-                      Feedback: Strong technical communication
+                    <p className="text-xs sm:text-sm font-bold text-slate-900">
+                      Nhận xét: Kỹ năng giao tiếp kỹ thuật tốt
                     </p>
                   </div>
                 </div>
