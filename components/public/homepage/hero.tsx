@@ -76,7 +76,7 @@ const Hero = () => {
               />
 
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 rounded-2xl border border-white/30 bg-white/55 backdrop-blur-xl shadow-xl">
-                <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4">
+                <div className="flex   items-center gap-3 sm:gap-4 p-3 sm:p-4">
                   <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-green-500/20">
                     <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
                   </div>

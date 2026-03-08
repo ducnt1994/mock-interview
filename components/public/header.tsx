@@ -5,7 +5,7 @@ const Header = () => {
   const listMenu = [
     {
       name: "Người phỏng vấn",
-      href: "/danh-sach-nguoi-phong-van"
+      href: "/interviewers"
     },
     {
       name: "Bài viết",
@@ -34,7 +34,7 @@ const Header = () => {
             {listMenu.map((item) => (
               <a
                 key={item.name}
-                href={`#${item.href}`}
+                href={`${item.href}`}
                 className="text-sm font-semibold text-slate-600 hover:text-primary transition-colors"
               >
                 {item.name}
