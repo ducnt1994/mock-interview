@@ -40,7 +40,7 @@ const Footer = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-0 pt-6 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 text-xs text-slate-400 font-medium">
-        <p>© 2024 InterviewPrep Inc. Bảo lưu mọi quyền.</p>
+        <p>© 2026 diphongvan Inc. Bảo lưu mọi quyền.</p>
         <p>Được xây dựng để phục vụ thế hệ lao động hiện đại.</p>
       </div>
     </footer>

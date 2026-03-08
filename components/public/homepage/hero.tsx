@@ -64,7 +64,7 @@ const Hero = () => {
         </div>
 
         {/* Right: Hero image */}
-        <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none lg:w-[580px] shrink-0 lg:block hidden">
+        <div className="relative w-full max-w-sm lg:max-w-none lg:w-[400px] xl:w-[536px] shrink-0 lg:block hidden">
 
           <div className="relative aspect-square rounded-3xl" id="right-side">
             <div className="relative m-4 h-[calc(100%-2rem)] drop-shadow-2xl">
