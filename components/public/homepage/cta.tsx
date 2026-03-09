@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+
 const CTA = () => {
   return (
     <section className="px-4 md:px-6 pb-10 pt-4 md:pt-10 lg:pt-16 xl:pt-20 md:pb-16 lg:pb-24 bg-neutral-landing">
@@ -12,12 +14,12 @@ const CTA = () => {
             <p className="text-base md:text-xl text-white/80 max-w-2xl mx-auto">Hàng nghìn ứng viên đã cải thiện kỹ năng phỏng vấn lên 75% chỉ sau buổi đầu tiên.</p>
           </div>
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4">
-            <button className="px-6 py-4 md:px-10 md:py-5 bg-white text-primary font-bold text-base md:text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform">
+            <Button size={'lg'} className="h-14 px-6 py-4 md:px-10 md:py-5 bg-white text-primary font-bold text-base md:text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform">
               Bắt đầu luyện tập ngay
-            </button>
-            <button className="px-6 py-4 md:px-10 md:py-5 bg-primary-hover/50 backdrop-blur-md border border-white/20 text-white font-bold text-base md:text-lg rounded-2xl hover:bg-white/10 transition-all">
+            </Button>
+            <Button size={'lg'} variant={'outline'} className="h-14 px-6 py-4 md:px-10 md:py-5 font-bold text-base md:text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform">
               Xem danh sách chuyên gia
-            </button>
+            </Button>
           </div>
         </div>
       </div>
