@@ -32,9 +32,9 @@ const HowItWorks = () => {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="flex flex-col items-center text-center gap-6 p-8 rounded-3xl hover:bg-slate-50 transition-all group"
+              className="flex flex-col items-center text-center gap-6 p-8 rounded-3xl hover:bg-slate-50 transition-colors group"
             >
-              <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary group-hover:scale-110 motion-reduce:group-hover:scale-100 transition-transform">
                 {step.icon}
               </div>
               <div className="space-y-3">

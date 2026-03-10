@@ -7,14 +7,14 @@ export default function FeaturedPost() {
     return (
         <section className="px-4 md:px-6 mb-20 max-w-[1200px] mx-auto">
             <Link href={featuredPost.href} className="group block">
-                <div className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_40px_rgb(0,0,0,0.06)] hover:shadow-[0_12px_50px_rgb(0,0,0,0.08)] transition-all duration-300 flex flex-col md:flex-row border border-gray-100">
+                <div className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_40px_rgb(0,0,0,0.06)] hover:shadow-[0_12px_50px_rgb(0,0,0,0.08)] transition-shadow duration-300 flex flex-col md:flex-row border border-gray-100">
 
                     <div className="w-full md:w-[55%] h-[300px] md:h-auto min-h-[400px] relative overflow-hidden">
                         <Image
                             src={featuredPost.image}
                             alt={featuredPost.title}
                             fill
-                            className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                            className="object-cover object-center group-hover:scale-105 motion-reduce:group-hover:scale-100 transition-transform duration-700 ease-in-out"
                             sizes="(max-width: 768px) 100vw, 55vw"
                             priority
                         />

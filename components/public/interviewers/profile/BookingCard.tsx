@@ -61,11 +61,10 @@ export default function BookingCard({ price, onClose }: Props) {
             <button
               key={d}
               onClick={() => setSelectedDate(d)}
-              className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
-                selectedDate === d
+              className={`px-3 py-2 rounded-xl text-xs font-bold border transition-colors ${selectedDate === d
                   ? "bg-primary-500 text-white border-primary-500"
                   : "border-slate-200 text-slate-600 hover:border-primary-500 hover:text-primary-500"
-              }`}
+                }`}
             >
               {d}
             </button>
@@ -84,11 +83,10 @@ export default function BookingCard({ price, onClose }: Props) {
             <button
               key={t}
               onClick={() => setSelectedTime(t)}
-              className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
-                selectedTime === t
+              className={`px-3 py-2 rounded-xl text-xs font-bold border transition-colors ${selectedTime === t
                   ? "bg-primary-500 text-white border-primary-500"
                   : "border-slate-200 text-slate-600 hover:border-primary-500 hover:text-primary-500"
-              }`}
+                }`}
             >
               {t}
             </button>

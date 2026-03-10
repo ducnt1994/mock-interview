@@ -72,6 +72,7 @@ const Hero = () => {
                 src="/images/landing-page/hero.webp"
                 alt="Luyện phỏng vấn thực tế cùng chuyên gia"
                 fill
+                priority
                 className="object-cover rounded-2xl"
               />
 

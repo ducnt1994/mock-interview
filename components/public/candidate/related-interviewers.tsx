@@ -36,7 +36,7 @@ export default function RelatedInterviewers() {
                             <p className="text-xs text-gray-400 truncate">{interviewer.role}</p>
                             <div className="flex items-center gap-3 mt-1">
                                 <span className="flex items-center gap-1 text-xs font-semibold text-amber-500">
-                                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" aria-hidden="true" />
                                     {interviewer.rating}
                                 </span>
                                 <span className="text-xs text-gray-400">

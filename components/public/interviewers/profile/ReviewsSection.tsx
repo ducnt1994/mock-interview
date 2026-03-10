@@ -50,11 +50,10 @@ export default function ReviewsSection({ reviews, rating, reviewCount }: Props) 
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-3.5 h-3.5 ${
-                      i < review.rating
+                    className={`w-3.5 h-3.5 ${i < review.rating
                         ? "fill-amber-400 text-amber-400"
                         : "text-slate-200 fill-slate-200"
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -68,7 +67,7 @@ export default function ReviewsSection({ reviews, rating, reviewCount }: Props) 
       {shown < reviews.length && (
         <button
           onClick={() => setShown((n) => n + REVIEWS_PER_PAGE)}
-          className="w-full flex items-center justify-center gap-2 py-3 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 hover:border-primary-500 hover:text-primary-500 transition-all"
+          className="w-full flex items-center justify-center gap-2 py-3 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 hover:border-primary-500 hover:text-primary-500 transition-colors"
         >
           Xem thêm đánh giá <ChevronDown className="w-4 h-4" />
         </button>

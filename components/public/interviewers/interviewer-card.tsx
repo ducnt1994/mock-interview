@@ -17,7 +17,7 @@ export interface Interviewer {
 
 export default function InterviewerCard({ expert }: { expert: Interviewer }) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-[shadow,transform] duration-300 flex flex-col">
       {/* Image */}
       <div className="relative h-44 md:h-52 overflow-hidden">
         <img
@@ -30,8 +30,8 @@ export default function InterviewerCard({ expert }: { expert: Interviewer }) {
         <div className="absolute top-3 right-3">
           <span
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold backdrop-blur-sm ${expert.available
-                ? "bg-green-500/90 text-white"
-                : "bg-slate-500/80 text-white"
+              ? "bg-green-500/90 text-white"
+              : "bg-slate-500/80 text-white"
               }`}
           >
             <span

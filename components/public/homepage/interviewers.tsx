@@ -41,7 +41,7 @@ const Interviewers = () => {
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-primary-500">Chuyên gia của chúng tôi</span>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Người phỏng vấn nổi bật</h2>
           </div>
-          <button className="flex items-center gap-2 font-bold text-primary hover:gap-4 transition-all group shrink-0">
+          <button className="flex items-center gap-2 font-bold text-primary hover:gap-4 transition-[gap] group shrink-0">
             Xem 500+ chuyên gia <ArrowRight className="w-5 h-5" />
           </button>
         </div>
@@ -50,7 +50,7 @@ const Interviewers = () => {
           {experts.map((expert, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl transition-all"
+              className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
             >
               <div className="h-44 md:h-56 overflow-hidden">
                 <img

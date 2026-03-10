@@ -22,7 +22,7 @@ export default function InterviewQuestions() {
                     <Link
                         key={q.id}
                         href="#"
-                        className="block p-4 rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-sm transition-all group"
+                        className="block p-4 rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-sm transition-colors transition-shadow group"
                     >
                         <div className="flex items-start justify-between gap-3 mb-2.5">
                             <div className="flex-1 min-w-0">
@@ -59,12 +59,11 @@ export default function InterviewQuestions() {
             </div>
 
             <div className="text-center mt-5">
-                <Link
-                    href="#"
+                <button
                     className="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors"
                 >
                     Browse all questions →
-                </Link>
+                </button>
             </div>
         </div>
     );

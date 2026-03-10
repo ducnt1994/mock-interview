@@ -163,7 +163,7 @@ export default function InterviewersPage() {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Tìm theo tên, vị trí, kỹ năng..."
-                            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all"
+                            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-colors"
                         />
                     </div>
                 </div>

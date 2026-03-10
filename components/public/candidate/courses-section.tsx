@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Play, ChevronDown, Circle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { currentCourse, progressItems } from "./mock-data";
@@ -11,6 +10,7 @@ type TabType = "active" | "completed" | "saved";
 
 export default function CoursesSection() {
     const [activeTab, setActiveTab] = useState<TabType>("active");
+    const [progressOpen, setProgressOpen] = useState(true);
 
     const tabs: { key: TabType; label: string }[] = [
         { key: "active", label: "ACTIVE" },
@@ -43,7 +43,7 @@ export default function CoursesSection() {
                     />
                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
-                            <Play className="w-4 h-4 text-gray-900 ml-0.5" />
+                            <Play className="w-4 h-4 text-gray-900 ml-0.5" aria-hidden="true" />
                         </div>
                     </div>
                     {/* Logo pills */}
@@ -52,6 +52,7 @@ export default function CoursesSection() {
                             <div
                                 key={idx}
                                 className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-xs border-2 border-white"
+                                aria-hidden="true"
                             >
                                 {logo}
                             </div>
@@ -71,50 +72,60 @@ export default function CoursesSection() {
             {/* My Progress */}
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-base font-bold text-gray-900">My Progress</h3>
-                <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                    <ChevronDown className="w-5 h-5" />
+                <button
+                    aria-label="Toggle progress"
+                    aria-expanded={progressOpen}
+                    onClick={() => setProgressOpen(!progressOpen)}
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                    <ChevronDown className={`w-5 h-5 transition-transform ${progressOpen ? "" : "-rotate-90"}`} aria-hidden="true" />
                 </button>
             </div>
 
-            {/* Tabs */}
-            <div className="flex border-b border-gray-100 mb-4">
-                {tabs.map((tab) => (
-                    <button
-                        key={tab.key}
-                        onClick={() => setActiveTab(tab.key)}
-                        className={`px-4 pb-3 text-xs font-bold tracking-wider transition-colors relative ${activeTab === tab.key
-                                ? "text-primary-600"
-                                : "text-gray-400 hover:text-gray-600"
-                            }`}
-                    >
-                        {tab.label}
-                        {activeTab === tab.key && (
-                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full" />
-                        )}
-                    </button>
-                ))}
-            </div>
-
-            {/* Progress Items */}
-            <div className="space-y-3">
-                {progressItems.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3 py-2">
-                        <Circle className="w-4 h-4 text-gray-300 flex-shrink-0" />
-                        <span className="text-sm text-gray-700 font-medium">
-                            {item.title}
-                        </span>
+            {progressOpen && (
+                <>
+                    {/* Tabs */}
+                    <div className="flex border-b border-gray-100 mb-4" role="tablist">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.key}
+                                role="tab"
+                                aria-selected={activeTab === tab.key}
+                                onClick={() => setActiveTab(tab.key)}
+                                className={`px-4 pb-3 text-xs font-bold tracking-wider transition-colors relative ${activeTab === tab.key
+                                        ? "text-primary-600"
+                                        : "text-gray-400 hover:text-gray-600"
+                                    }`}
+                            >
+                                {tab.label}
+                                {activeTab === tab.key && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full" />
+                                )}
+                            </button>
+                        ))}
                     </div>
-                ))}
-            </div>
 
-            <div className="text-center mt-5">
-                <Link
-                    href="#"
-                    className="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors"
-                >
-                    See more courses
-                </Link>
-            </div>
+                    {/* Progress Items */}
+                    <div className="space-y-3" role="tabpanel">
+                        {progressItems.map((item, idx) => (
+                            <div key={idx} className="flex items-center gap-3 py-2">
+                                <Circle className="w-4 h-4 text-gray-300 flex-shrink-0" aria-hidden="true" />
+                                <span className="text-sm text-gray-700 font-medium">
+                                    {item.title}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="text-center mt-5">
+                        <button
+                            className="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors"
+                        >
+                            See more courses
+                        </button>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

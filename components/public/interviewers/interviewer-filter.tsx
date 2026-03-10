@@ -68,11 +68,10 @@ export default function InterviewerFilter({ value, onChange }: Props) {
             <button
               key={ind}
               onClick={() => onChange({ ...value, industry: ind })}
-              className={`text-left px-3 py-2 rounded-xl text-sm font-medium transition-all ${
-                value.industry === ind
+              className={`text-left px-3 py-2 rounded-xl text-sm font-medium transition-colors ${value.industry === ind
                   ? "bg-primary-500 text-white"
                   : "text-slate-600 hover:bg-slate-100"
-              }`}
+                }`}
             >
               {ind}
             </button>
@@ -90,11 +89,10 @@ export default function InterviewerFilter({ value, onChange }: Props) {
             <button
               key={opt.value}
               onClick={() => onChange({ ...value, minRating: opt.value })}
-              className={`text-left px-3 py-2 rounded-xl text-sm font-medium transition-all ${
-                value.minRating === opt.value
+              className={`text-left px-3 py-2 rounded-xl text-sm font-medium transition-colors ${value.minRating === opt.value
                   ? "bg-primary-500 text-white"
                   : "text-slate-600 hover:bg-slate-100"
-              }`}
+                }`}
             >
               {opt.label}
             </button>
@@ -108,18 +106,16 @@ export default function InterviewerFilter({ value, onChange }: Props) {
           Trạng thái
         </p>
         <label
-          className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded-xl hover:bg-slate-100 transition-all"
+          className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors"
           onClick={() => onChange({ ...value, availableOnly: !value.availableOnly })}
         >
           <div
-            className={`w-10 h-6 rounded-full relative transition-colors duration-200 shrink-0 ${
-              value.availableOnly ? "bg-primary-500" : "bg-slate-200"
-            }`}
+            className={`w-10 h-6 rounded-full relative transition-colors duration-200 shrink-0 ${value.availableOnly ? "bg-primary-500" : "bg-slate-200"
+              }`}
           >
             <div
-              className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${
-                value.availableOnly ? "translate-x-4" : "translate-x-0"
-              }`}
+              className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${value.availableOnly ? "translate-x-4" : "translate-x-0"
+                }`}
             />
           </div>
           <span className="text-sm font-medium text-slate-700">
@@ -136,11 +132,10 @@ export default function InterviewerFilter({ value, onChange }: Props) {
       <div className="lg:hidden">
         <button
           onClick={() => setMobileOpen(true)}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
-            hasActive
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${hasActive
               ? "border-primary-500 text-primary-500 bg-primary-50"
               : "border-slate-200 text-slate-600 bg-white"
-          }`}
+            }`}
         >
           <SlidersHorizontal className="w-4 h-4" />
           Bộ lọc

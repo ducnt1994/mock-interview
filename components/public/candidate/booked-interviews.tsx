@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Calendar, Clock, MoreVertical, Plus, Video, Trash2, Edit3 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { bookedInterviews } from "./mock-data";
 
@@ -13,6 +13,38 @@ const statusStyles = {
 
 export default function BookedInterviews() {
     const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    // Close dropdown on Escape key or outside click
+    useEffect(() => {
+        if (!menuOpenId) return;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setMenuOpenId(null);
+        };
+
+        const handleClickOutside = (e: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+                setMenuOpenId(null);
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [menuOpenId]);
+
+    const handleCancel = (interviewerName: string) => {
+        const confirmed = window.confirm(
+            `Are you sure you want to cancel the interview with ${interviewerName}?`
+        );
+        if (confirmed) {
+            setMenuOpenId(null);
+        }
+    };
 
     return (
         <div className="bg-white rounded-2xl border border-gray-100 p-6">
@@ -22,7 +54,7 @@ export default function BookedInterviews() {
                     <p className="text-sm text-gray-400">Manage your upcoming and past sessions</p>
                 </div>
                 <Button size="sm" className="bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-lg gap-1.5">
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-4 h-4" aria-hidden="true" />
                     Book New
                 </Button>
             </div>
@@ -57,11 +89,11 @@ export default function BookedInterviews() {
                             <p className="text-xs text-gray-400 truncate">{interview.role}</p>
                             <div className="flex items-center gap-3 mt-1.5">
                                 <span className="flex items-center gap-1 text-xs text-gray-500">
-                                    <Calendar className="w-3 h-3" />
+                                    <Calendar className="w-3 h-3" aria-hidden="true" />
                                     {interview.date}
                                 </span>
                                 <span className="flex items-center gap-1 text-xs text-gray-500">
-                                    <Clock className="w-3 h-3" />
+                                    <Clock className="w-3 h-3" aria-hidden="true" />
                                     {interview.time}
                                 </span>
                                 <span className="text-[10px] font-medium text-gray-400 bg-gray-50 px-2 py-0.5 rounded">
@@ -71,27 +103,44 @@ export default function BookedInterviews() {
                         </div>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-1 flex-shrink-0 relative">
+                        <div className="flex items-center gap-1 flex-shrink-0 relative" ref={menuOpenId === interview.id ? menuRef : undefined}>
                             {interview.status === "upcoming" && (
-                                <button className="p-2 rounded-lg text-primary-500 hover:bg-primary-50 transition-colors" title="Join session">
-                                    <Video className="w-4 h-4" />
+                                <button
+                                    className="p-2 rounded-lg text-primary-500 hover:bg-primary-50 transition-colors"
+                                    aria-label={`Join session with ${interview.interviewer}`}
+                                >
+                                    <Video className="w-4 h-4" aria-hidden="true" />
                                 </button>
                             )}
                             <button
                                 className="p-2 rounded-lg text-gray-400 hover:bg-gray-50 transition-colors"
+                                aria-label={`More actions for ${interview.interviewer}`}
+                                aria-expanded={menuOpenId === interview.id}
+                                aria-haspopup="menu"
                                 onClick={() => setMenuOpenId(menuOpenId === interview.id ? null : interview.id)}
                             >
-                                <MoreVertical className="w-4 h-4" />
+                                <MoreVertical className="w-4 h-4" aria-hidden="true" />
                             </button>
 
                             {menuOpenId === interview.id && (
-                                <div className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-gray-100 py-1 w-36 z-10">
-                                    <button className="flex items-center gap-2 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
-                                        <Edit3 className="w-3.5 h-3.5" />
+                                <div
+                                    className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-gray-100 py-1 w-36 z-10"
+                                    role="menu"
+                                >
+                                    <button
+                                        role="menuitem"
+                                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                        onClick={() => setMenuOpenId(null)}
+                                    >
+                                        <Edit3 className="w-3.5 h-3.5" aria-hidden="true" />
                                         Reschedule
                                     </button>
-                                    <button className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors">
-                                        <Trash2 className="w-3.5 h-3.5" />
+                                    <button
+                                        role="menuitem"
+                                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
+                                        onClick={() => handleCancel(interview.interviewer)}
+                                    >
+                                        <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
                                         Cancel
                                     </button>
                                 </div>

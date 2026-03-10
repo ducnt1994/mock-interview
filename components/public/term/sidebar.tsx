@@ -30,11 +30,11 @@ export default function TermSidebar() {
                         key={link.id}
                         onClick={() => handleClick(link.id)}
                         className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${isActive
-                                ? "bg-primary-500 text-white shadow-md shadow-primary-500/20"
-                                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                            ? "bg-primary-500 text-white shadow-md shadow-primary-500/20"
+                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                             }`}
                     >
-                        <Icon className="w-4 h-4 flex-shrink-0" />
+                        <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                         {link.label}
                     </button>
                 );
@@ -52,7 +52,7 @@ export default function TermSidebar() {
                     href="#"
                     className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-primary-600 transition-colors"
                 >
-                    <Download className="w-4 h-4" />
+                    <Download className="w-4 h-4" aria-hidden="true" />
                     Download Policy
                 </Link>
             </div>
