@@ -1,0 +1,59 @@
+import { Button } from "@/components/ui/button";
+
+interface CTAProps {
+  title?: string;
+  description?: string;
+  primaryButtonText?: string;
+  secondaryButtonText?: string;
+  className?: string;
+}
+
+const CTA = ({
+  title = "Sẵn sàng chinh phục công việc mơ ước?",
+  description = "Hàng nghìn ứng viên đã cải thiện kỹ năng phỏng vấn lên 75% chỉ sau buổi đầu tiên.",
+  primaryButtonText = "Bắt đầu luyện tập ngay",
+  secondaryButtonText = "Xem danh sách chuyên gia",
+  className = "",
+}: CTAProps) => {
+  return (
+    <section
+      className={`px-4 md:px-6 pb-10 pt-4 md:pt-10 lg:pt-16 xl:pt-20 md:pb-16 lg:pb-24 ${className}`}
+    >
+      <div className="max-w-6xl mx-auto bg-primary-500 rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 lg:p-24 text-center relative overflow-hidden shadow-2xl shadow-primary/30">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border-[60px] border-white rounded-full" />
+        </div>
+
+        <div className="relative z-10 space-y-6 md:space-y-10">
+          <div className="space-y-3 md:space-y-4">
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-white leading-tight">
+              {title}
+            </h2>
+            <p className="text-base md:text-xl text-white/80 max-w-2xl mx-auto">
+              {description}
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4">
+            <Button
+              size="lg"
+              className="h-14 px-6 py-4 md:px-10 md:py-5 bg-white text-primary font-bold text-base md:text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform"
+            >
+              {primaryButtonText}
+            </Button>
+            {secondaryButtonText && (
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-14 px-6 py-4 md:px-10 md:py-5 font-bold text-base md:text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform"
+              >
+                {secondaryButtonText}
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default CTA;

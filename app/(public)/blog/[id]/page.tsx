@@ -1,6 +1,6 @@
 import BlogContent from "@/components/public/blog/detail/content";
 import BlogSidebar from "@/components/public/blog/detail/sidebar";
-import CTA from "@/components/public/homepage/cta";
+import CTA from "@/components/shared/CTA";
 
 export const metadata = {
     title: "10 Essential Tips to Ace Your Next Technical Interview | InterviewPrep",

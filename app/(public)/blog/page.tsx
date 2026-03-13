@@ -1,7 +1,7 @@
 import BlogHero from "@/components/public/blog/hero";
 import FeaturedPost from "@/components/public/blog/featured-post";
 import PostList from "@/components/public/blog/post-list";
-import CTA from "@/components/public/homepage/cta";
+import CTA from "@/components/shared/CTA";
 
 export const metadata = {
     title: "Blog & Career Insights | InterviewPrep",

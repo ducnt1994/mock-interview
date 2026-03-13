@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-const Header = () => {
+const Navbar = () => {
   const listMenu = [
     {
       name: "Người phỏng vấn",
@@ -14,6 +14,10 @@ const Header = () => {
     {
       name: "Trở thành người phỏng vấn",
       href: "/tro-thanh-nguoi-phong-van"
+    },
+    {
+      name: "FAQ",
+      href: "/faq"
     },
     {
       name: "Liên hệ",
@@ -52,4 +56,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;
