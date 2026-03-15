@@ -20,27 +20,27 @@ import { cn } from "@/lib/utils";
 const sidebarLinks = [
   {
     label: "Tổng quan",
-    href: "/dashboard",
+    href: "/admin/dashboard",
     icon: LayoutDashboard,
   },
   {
     label: "Lịch phỏng vấn",
-    href: "/bookings",
+    href: "/admin/bookings",
     icon: CalendarCheck,
   },
   {
     label: "Buổi phỏng vấn",
-    href: "/interviews",
+    href: "/admin/interviews",
     icon: ClipboardList,
   },
   {
     label: "Phản hồi",
-    href: "/feedback",
+    href: "/admin/feedback",
     icon: MessageSquareText,
   },
   {
     label: "Cài đặt",
-    href: "/settings",
+    href: "/admin/settings",
     icon: Settings,
   },
 ];
@@ -105,7 +105,7 @@ export default function Sidebar() {
             {sidebarLinks.map((link) => {
               const isActive =
                 pathname === link.href ||
-                (link.href !== "/dashboard" && pathname.startsWith(link.href));
+                (link.href !== "/admin/dashboard" && pathname.startsWith(link.href));
 
               return (
                 <li key={link.href}>
