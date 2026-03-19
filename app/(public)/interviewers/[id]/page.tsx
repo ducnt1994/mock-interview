@@ -1,158 +1,189 @@
-"use client";
+import { notFound } from "next/navigation";
+import { Star, Briefcase, ExternalLink, CheckCircle } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import BookingFlow from "../../../../components/public/interviewers/profile/BookingFlow";
+import BookingDrawer from "../../../../components/public/interviewers/profile/BookingDrawer";
+import {
+  fetchInterviewerDetail,
+  type Interviewer,
+  type ServiceOffering,
+} from "@/features/interviewer/api";
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-0.5">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <Star key={s} className={`w-4 h-4 ${s <= Math.round(rating) ? "fill-amber-400 text-amber-400" : "text-slate-200"}`} />
+      ))}
+    </div>
+  );
+}
 
-import { useState } from "react";
-import { Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Expert, Review } from "../../../../components/public/interviewers/profile/types";
-import ProfileCard from "../../../../components/public/interviewers/profile/ProfileCard";
-import AboutSection from "../../../../components/public/interviewers/profile/AboutSection";
-import ExperienceSection from "../../../../components/public/interviewers/profile/ExperienceSection";
-import ReviewsSection from "../../../../components/public/interviewers/profile/ReviewsSection";
-import BookingCard from "../../../../components/public/interviewers/profile/BookingCard";
-
-// ─── Mock data ────────────────────────────────────────────────────────────────
-const EXPERT: Expert = {
-    id: 1,
-    name: "Alex Chen",
-    role: "Staff Engineer",
-    company: "Tech Global",
-    rating: 4.9,
-    reviewCount: 128,
-    tags: ["Thiết kế hệ thống", "Thuật toán", "Backend"],
-    price: 800000,
-    available: true,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCJPGBLYWmV9Hsd8URzPWs4vHRs-KxCS-ITksVS-kmqpIZi8LXKBUkI6gdjkPYzzVmzE4xvYC2f_nSqX2c2wQ0w6Uhx0alTcCfWn-RmFzKnQATfuYKdM-fdXGMrglxxm9wTnSxxZQBjQUsiA1o0uGKKFuadx3JFrO2bZkDM4wKprY1aNLrfQQNTHyerCZ4Q6JdVJ8gPo69hXT6amUdfXov_TIu9byM9P7erjAm1YCqjAwHEMQ1VwXQZvYq7cRnqmboboG1umZgtZXE",
-    industry: "Kỹ thuật phần mềm",
-    bio: "Mình là kỹ sư phần mềm với hơn 10 năm kinh nghiệm tại các công ty công nghệ hàng đầu. Mình đã phỏng vấn hơn 300 ứng viên cho các vị trí từ junior đến senior engineer. Mình sẽ giúp bạn tự tin hơn, trình bày rõ ràng hơn và chinh phục mọi buổi phỏng vấn kỹ thuật.",
-    experience: [
-        { company: "Tech Global", role: "Staff Engineer", period: "2020 – Hiện tại", logo: "TG" },
-        { company: "CloudBase", role: "Senior Software Engineer", period: "2017 – 2020", logo: "CB" },
-        { company: "StartupXYZ", role: "Software Engineer", period: "2014 – 2017", logo: "SX" },
-    ],
-    education: [
-        { school: "Đại học Quốc gia TP.HCM", degree: "Kỹ sư Khoa học Máy tính", period: "2010 – 2014" },
-        { school: "Google", degree: "Professional Cloud Architect", period: "2019", isCert: true },
-    ],
-};
-
-const REVIEWS: Review[] = [
-    {
-        id: 1,
-        name: "Minh Tuấn",
-        avatar: "MT",
-        rating: 5,
-        date: "02/03/2026",
-        comment: "Anh Alex rất nhiệt tình và chuyên sâu. Buổi mock interview giúp mình nhận ra những điểm yếu về system design mà mình chưa để ý. Sau buổi đó mình phỏng vấn thật và pass ngay!",
-    },
-    {
-        id: 2,
-        name: "Lan Anh",
-        avatar: "LA",
-        rating: 5,
-        date: "18/02/2026",
-        comment: "Feedback rất chi tiết và cụ thể. Anh giúp mình cải thiện cách trình bày thuật toán rõ ràng hơn nhiều. Rất đáng tiền!",
-    },
-    {
-        id: 3,
-        name: "Hoàng Nam",
-        avatar: "HN",
-        rating: 4,
-        date: "10/02/2026",
-        comment: "Buổi phỏng vấn mock rất thực tế, câu hỏi sát với thực tế tại các big tech. Mình học được nhiều cách tiếp cận bài toán mới.",
-    },
-    {
-        id: 4,
-        name: "Thu Hà",
-        avatar: "TH",
-        rating: 5,
-        date: "25/01/2026",
-        comment: "Excellente! Anh Alex chia sẻ insight từ người trong ngành rất quý giá, không tìm được ở đâu khác. Highly recommend!",
-    },
-];
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
-export default function InterviewerDetailPage() {
-    const [showBookingDrawer, setShowBookingDrawer] = useState(false);
-    const expert = EXPERT;
-
+function Avatar({ src, name, size = 80 }: { src: string | null; name: string; size?: number }) {
+  const initials = name.split(" ").map((w) => w[0]).slice(-2).join("").toUpperCase();
+  if (src) {
     return (
-        <div className="bg-neutral-landing min-h-screen">
-            {/* Breadcrumb */}
-            <div className="bg-white border-b border-slate-100">
-                <div className="max-w-7xl mx-auto px-4 xl:px-0 py-4">
-                    <nav className="flex items-center gap-2 text-sm text-slate-400 flex-wrap">
-                        <a href="/" className="hover:text-primary-500 transition-colors font-medium">
-                            Trang chủ
-                        </a>
-                        <span className="text-slate-300">/</span>
-                        <a href="/interviewers" className="hover:text-primary-500 transition-colors font-medium">
-                            Danh sách người phỏng vấn
-                        </a>
-                        <span className="text-slate-300">/</span>
-                        <span className="text-slate-900 font-semibold truncate">{expert.name}</span>
-                    </nav>
+      <div style={{ width: size, height: size }} className="relative rounded-full overflow-hidden flex-shrink-0">
+        <Image src={src} alt={name} fill className="object-cover" sizes={`${size}px`} />
+      </div>
+    );
+  }
+  return (
+    <div style={{ width: size, height: size }} className="rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
+      <span className="font-bold text-primary-700" style={{ fontSize: size * 0.3 }}>{initials}</span>
+    </div>
+  );
+}
+
+// ─── Page (SSR) ───────────────────────────────────────────────────────────────
+export default async function InterviewerDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: userId } = await params;
+  const expert = await fetchInterviewerDetail(userId);
+  if (!expert) notFound();
+
+  const activeOfferings = expert.serviceOfferings ?? [];
+
+  return (
+    <div className="bg-neutral-landing min-h-screen">
+      {/* Breadcrumb */}
+      <div className="bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 xl:px-0 py-4">
+          <nav className="flex items-center gap-2 text-sm text-slate-400 flex-wrap">
+            <Link href="/" className="hover:text-primary-500 transition-colors font-medium">Trang chủ</Link>
+            <span className="text-slate-300">/</span>
+            <Link href="/interviewers" className="hover:text-primary-500 transition-colors font-medium">Danh sách người phỏng vấn</Link>
+            <span className="text-slate-300">/</span>
+            <span className="text-slate-900 font-semibold truncate">{expert.fullName}</span>
+          </nav>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 xl:px-0 py-6 md:py-10">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start">
+
+          {/* ── Left column ─────────────────────────────────────────────── */}
+          <div className="flex-1 min-w-0 flex flex-col gap-6">
+
+            {/* Profile card */}
+            <div className="bg-white rounded-2xl border border-slate-100 p-6">
+              <div className="flex items-start gap-4">
+                <Avatar src={expert.avatarUrl} name={expert.fullName ?? "Interviewer"} size={72} />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h1 className="text-xl font-black text-slate-900">{expert.fullName}</h1>
+                    {expert.isVerified && <CheckCircle className="w-5 h-5 text-primary-500 flex-shrink-0" />}
+                  </div>
+                  <p className="text-sm text-slate-500 mt-0.5">
+                    {expert.jobTitle}{expert.jobTitle && expert.company ? " · " : ""}{expert.company}
+                  </p>
+                  <div className="flex items-center gap-4 mt-2 flex-wrap">
+                    <span className="flex items-center gap-1 text-sm font-semibold text-amber-500">
+                      <Star className="w-4 h-4 fill-amber-400" />
+                      {expert.ratingAvg.toFixed(1)}
+                      <span className="text-slate-400 font-normal">({expert.totalReviews} đánh giá)</span>
+                    </span>
+                    {expert.yearsExp > 0 && (
+                      <span className="flex items-center gap-1 text-sm text-slate-500">
+                        <Briefcase className="w-4 h-4" /> {expert.yearsExp} năm kinh nghiệm
+                      </span>
+                    )}
+                    {expert.linkedinUrl && (
+                      <a href={expert.linkedinUrl} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-sm text-primary-600 hover:underline">
+                        <ExternalLink className="w-3.5 h-3.5" /> LinkedIn
+                      </a>
+                    )}
+                  </div>
                 </div>
+              </div>
             </div>
 
-            {/* Content */}
-            <div className="max-w-7xl mx-auto px-4 xl:px-0 py-6 md:py-10">
-                <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start">
-                    {/* Left column */}
-                    <div className="flex-1 min-w-0 flex flex-col gap-6">
-                        <ProfileCard expert={expert} />
-                        <AboutSection expert={expert} />
-                        <ExperienceSection expert={expert} />
-                        <ReviewsSection
-                            reviews={REVIEWS}
-                            rating={expert.rating}
-                            reviewCount={expert.reviewCount}
-                        />
-                    </div>
-
-                    {/* Right column — desktop booking card */}
-                    <div className="hidden lg:block w-80 xl:w-96 shrink-0">
-                        <div className="sticky top-24 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-                            <BookingCard price={expert.price} />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Mobile sticky footer */}
-            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-100 px-4 py-3 flex items-center justify-between gap-4 shadow-2xl">
-                <div>
-                    <p className="text-lg font-black text-slate-900">
-                        {expert.price.toLocaleString("vi-VN")}đ
-                    </p>
-                    <p className="text-xs text-slate-400 flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> / 60 phút
-                    </p>
-                </div>
-                <Button
-                    className="font-bold rounded-xl px-6"
-                    onClick={() => setShowBookingDrawer(true)}
-                >
-                    Đặt lịch ngay
-                </Button>
-            </div>
-
-            {/* Mobile booking drawer */}
-            {showBookingDrawer && (
-                <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
-                    <div
-                        className="flex-1 bg-black/40 backdrop-blur-sm"
-                        onClick={() => setShowBookingDrawer(false)}
-                    />
-                    <div className="bg-white rounded-t-3xl p-5 max-h-[90vh] overflow-y-auto shadow-2xl">
-                        <div className="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-4" />
-                        <BookingCard price={expert.price} onClose={() => setShowBookingDrawer(false)} />
-                        <div className="h-4" />
-                    </div>
-                </div>
+            {/* Bio */}
+            {expert.bio && (
+              <div className="bg-white rounded-2xl border border-slate-100 p-6">
+                <h2 className="text-base font-bold text-slate-900 mb-3">Giới thiệu</h2>
+                <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{expert.bio}</p>
+              </div>
             )}
 
-            {/* Spacer for mobile sticky footer */}
-            <div className="lg:hidden h-20" />
+            {/* Services */}
+            {activeOfferings.length > 0 && (
+              <div className="bg-white rounded-2xl border border-slate-100 p-6">
+                <h2 className="text-base font-bold text-slate-900 mb-4">Dịch vụ cung cấp</h2>
+                <div className="flex flex-col gap-3">
+                  {activeOfferings.map((s) => (
+                    <div key={s.id} className="flex items-start justify-between gap-4 p-4 rounded-xl border border-slate-100">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-slate-900">{s.positionName ?? "Mock Interview"}</p>
+                        {s.industryName && <p className="text-xs text-slate-400 mt-0.5">{s.industryName}</p>}
+                        {s.description && <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{s.description}</p>}
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-base font-black text-primary-600">{s.basePrice.toLocaleString("vi-VN")}đ</p>
+                        <p className="text-xs text-slate-400">{s.durationMin} phút</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Feedbacks */}
+            {expert.feedbacks.length > 0 && (
+              <div className="bg-white rounded-2xl border border-slate-100 p-6">
+                <div className="flex items-center gap-3 mb-5">
+                  <h2 className="text-base font-bold text-slate-900">Đánh giá từ ứng viên</h2>
+                  <span className="flex items-center gap-1 text-sm font-bold text-amber-500">
+                    <Star className="w-4 h-4 fill-amber-400" /> {expert.ratingAvg.toFixed(1)}
+                  </span>
+                  <span className="text-sm text-slate-400">({expert.totalReviews} đánh giá)</span>
+                </div>
+                <div className="flex flex-col gap-4">
+                  {expert.feedbacks.map((f) => (
+                    <div key={f.id} className="border-b border-slate-50 pb-4 last:border-none last:pb-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <Avatar src={f.candidateAvatar} name={f.candidateName ?? "Ẩn danh"} size={36} />
+                        <div>
+                          <p className="text-sm font-bold text-slate-900">{f.candidateName}</p>
+                          <div className="flex items-center gap-2">
+                            <StarRating rating={f.rate} />
+                            <span className="text-xs text-slate-400">{new Date(f.date).toLocaleDateString("vi-VN")}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-600 leading-relaxed">{f.content}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* ── Right column — Booking (desktop) ────────────────────────── */}
+          <div className="hidden lg:block w-80 xl:w-96 shrink-0">
+            <div className="sticky top-24 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+              <h2 className="text-base font-bold text-slate-900 mb-4">Đặt lịch phỏng vấn</h2>
+              <BookingFlow userId={expert.userId} offerings={activeOfferings} />
+            </div>
+          </div>
         </div>
-    );
+      </div>
+
+      {/* Mobile booking drawer */}
+      <BookingDrawer userId={expert.userId} offerings={activeOfferings} />
+      <div className="lg:hidden h-20" />
+    </div>
+  );
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const expert = await fetchInterviewerDetail(id);
+  if (!expert) return { title: "Không tìm thấy" };
+  return {
+    title: `${expert.fullName} — Mock Interview`,
+    description: expert.bio?.slice(0, 160) ?? `Book mock interview với ${expert.fullName}`,
+  };
 }

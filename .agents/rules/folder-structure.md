@@ -83,6 +83,7 @@ mock-interview/
 │
 │
 ├── constants/                    # Constant values, enums
+│   ├── api.ts                    # API_ENDPOINTS — global endpoint constants
 │   ├── booking-status.ts
 │   └── interview-type.ts
 │
@@ -95,6 +96,7 @@ mock-interview/
 │
 ├── lib/                          # Third-party client initialization
 │   ├── utils.ts                  # cn() và shadcn utilities
+│   ├── http.ts                   # Axios instance + request/response interceptors
 │   ├── auth.ts
 │   ├── stripe.ts
 │   └── openai.ts
@@ -127,10 +129,22 @@ FEATURES
   - hooks/ — client-side data fetching hooks
   - services/ — hàm gọi API của feature
   - types.ts — TypeScript types riêng của feature
+  - tất cả các tính năng của admin đều phải nằm trong (admin), của landing page chỉ được nằm ở (public)
 
 HOOKS vs SERVICES
 - hooks/ — dành cho Client Component (thường dùng với SWR/React Query)
 - services/ — hàm async thuần, dùng trong Server Component hoặc Route Handler
+
+API LAYER (axios + feature api.ts)
+- lib/http.ts — Axios instance dùng chung, có request/response interceptors:
+  - Request: tự gắn Bearer token từ cookie
+  - Response: handle 401 (redirect login)
+- constants/api.ts — tập trung tất cả API_ENDPOINTS, tránh hard-code URL
+- features/<feature>/api.ts — function gọi API theo feature:
+  - Server-side functions: dùng native fetch() + next.revalidate (ISR-compatible)
+  - Client-side functions: dùng http (axios) instance
+  - Tách 2 loại trong cùng file, comment rõ ràng
+- KHÔNG viết fetch/axios trực tiếp trong component
 
 TYPES
 - Type riêng 1 feature → features/<feature>/types.ts
@@ -142,3 +156,4 @@ UTILS vs LIB
 
 CONSTANTS
 - Enum, status, config tĩnh không thay đổi → constants/
+
