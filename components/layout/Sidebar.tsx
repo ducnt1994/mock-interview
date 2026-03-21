@@ -15,11 +15,15 @@ import {
   Menu,
   Users,
   UserRound,
+  Search,
+  DollarSign,
+  Clock,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth, type UserRole } from "@/hooks/useAuth";
 
 interface NavItem {
   label: string;
@@ -28,19 +32,50 @@ interface NavItem {
   children?: { label: string; href: string }[];
 }
 
-const sidebarLinks: NavItem[] = [
-  { label: "Tổng quan", href: "/admin/dashboard", icon: LayoutDashboard },
-  { label: "Lịch phỏng vấn", href: "/admin/bookings", icon: CalendarCheck },
-  { label: "Buổi phỏng vấn", href: "/admin/interviews", icon: ClipboardList },
+interface NavSection {
+  role: UserRole;
+  title: string;
+  items: NavItem[];
+}
+
+const NAV_SECTIONS: NavSection[] = [
   {
-    label: "Người dùng",
-    icon: Users,
-    children: [
-      { label: "Ứng viên", href: "/admin/users/candidates" },
+    role: "admin",
+    title: "Quản trị",
+    items: [
+      { label: "Tổng quan", href: "/admin/dashboard", icon: LayoutDashboard },
+      { label: "Lịch phỏng vấn", href: "/admin/bookings", icon: CalendarCheck },
+      { label: "Buổi phỏng vấn", href: "/admin/interviews", icon: ClipboardList },
+      {
+        label: "Người dùng",
+        icon: Users,
+        children: [{ label: "Ứng viên", href: "/admin/users/candidates" }],
+      },
+      { label: "Phản hồi", href: "/admin/feedback", icon: MessageSquareText },
+      { label: "Cài đặt", href: "/admin/settings", icon: Settings },
     ],
   },
-  { label: "Phản hồi", href: "/admin/feedback", icon: MessageSquareText },
-  { label: "Cài đặt", href: "/admin/settings", icon: Settings },
+  {
+    role: "candidate",
+    title: "Ứng viên",
+    items: [
+      { label: "Tổng quan", href: "/candidate/dashboard", icon: LayoutDashboard },
+      { label: "Lịch đã đặt", href: "/candidate/bookings", icon: CalendarCheck },
+      { label: "Tìm interviewer", href: "/interviewers", icon: Search },
+      { label: "Đánh giá của tôi", href: "/candidate/reviews", icon: Star },
+    ],
+  },
+  {
+    role: "interviewer",
+    title: "Người phỏng vấn",
+    items: [
+      { label: "Tổng quan", href: "/interviewer/dashboard", icon: LayoutDashboard },
+      { label: "Lịch phỏng vấn", href: "/interviewer/bookings", icon: CalendarCheck },
+      { label: "Cài đặt lịch", href: "/interviewer/availability", icon: Clock },
+      { label: "Thu nhập", href: "/interviewer/payouts", icon: DollarSign },
+      { label: "Cài đặt", href: "/interviewer/settings", icon: Settings },
+    ],
+  },
 ];
 
 export default function Sidebar() {
@@ -48,7 +83,7 @@ export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<Set<string>>(
-    () => new Set(["Người dùng"]) // mở sẵn nếu đang trong sub-route
+    () => new Set(["Người dùng"])
   );
   const { user, logout } = useAuth();
 
@@ -69,7 +104,81 @@ export default function Sidebar() {
   };
 
   const isActive = (href: string) =>
-    pathname === href || (href !== "/admin/dashboard" && pathname.startsWith(href));
+    pathname === href || pathname.startsWith(href + "/");
+
+  // Chỉ hiển thị sections mà user có role tương ứng
+  const visibleSections = NAV_SECTIONS.filter((s) =>
+    user?.roles?.includes(s.role)
+  );
+
+  const renderNavItem = (item: NavItem) => {
+    if (item.children) {
+      const expanded = expandedMenus.has(item.label);
+      const anyChildActive = item.children.some((c) => isActive(c.href));
+      return (
+        <li key={item.label}>
+          <button
+            onClick={() => !collapsed && toggleMenu(item.label)}
+            className={cn(
+              "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
+              collapsed && "justify-center px-0",
+              anyChildActive
+                ? "bg-primary-50 text-primary-700"
+                : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+            )}
+          >
+            <item.icon className={cn("size-5 flex-shrink-0", anyChildActive ? "text-primary-600" : "text-slate-400")} />
+            {!collapsed && (
+              <>
+                <span className="flex-1 text-left">{item.label}</span>
+                <ChevronDown className={cn("size-3.5 transition-transform", expanded && "rotate-180")} />
+              </>
+            )}
+          </button>
+          {!collapsed && expanded && (
+            <ul className="mt-1 ml-4 pl-3 border-l border-slate-100 flex flex-col gap-0.5">
+              {item.children.map((child) => (
+                <li key={child.href}>
+                  <Link
+                    href={child.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all",
+                      isActive(child.href)
+                        ? "text-primary-700 font-semibold bg-primary-50"
+                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                    )}
+                  >
+                    <UserRound className="size-3.5 flex-shrink-0" />
+                    {child.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      );
+    }
+
+    return (
+      <li key={item.href}>
+        <Link
+          href={item.href!}
+          onClick={() => setMobileOpen(false)}
+          className={cn(
+            "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
+            collapsed && "justify-center px-0",
+            isActive(item.href!)
+              ? "bg-primary-50 text-primary-700 font-semibold"
+              : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+          )}
+        >
+          <item.icon className={cn("size-5 flex-shrink-0", isActive(item.href!) ? "text-primary-600" : "text-slate-400")} />
+          {!collapsed && <span>{item.label}</span>}
+        </Link>
+      </li>
+    );
+  };
 
   return (
     <>
@@ -115,83 +224,24 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Nav */}
+        {/* Nav — role-based sections */}
         <nav className="flex-1 px-3 py-4 overflow-y-auto">
-          <ul className="flex flex-col gap-1">
-            {sidebarLinks.map((item) => {
-              if (item.children) {
-                const expanded = expandedMenus.has(item.label);
-                const anyChildActive = item.children.some((c) => isActive(c.href));
-                return (
-                  <li key={item.label}>
-                    <button
-                      onClick={() => !collapsed && toggleMenu(item.label)}
-                      className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
-                        collapsed && "justify-center px-0",
-                        anyChildActive
-                          ? "bg-primary-50 text-primary-700"
-                          : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                      )}
-                    >
-                      <item.icon className={cn("size-5 flex-shrink-0", anyChildActive ? "text-primary-600" : "text-slate-400")} />
-                      {!collapsed && (
-                        <>
-                          <span className="flex-1 text-left">{item.label}</span>
-                          <ChevronDown className={cn("size-3.5 transition-transform", expanded && "rotate-180")} />
-                        </>
-                      )}
-                    </button>
-
-                    {/* Sub-items */}
-                    {!collapsed && expanded && (
-                      <ul className="mt-1 ml-4 pl-3 border-l border-slate-100 flex flex-col gap-0.5">
-                        {item.children.map((child) => (
-                          <li key={child.href}>
-                            <Link
-                              href={child.href}
-                              onClick={() => setMobileOpen(false)}
-                              className={cn(
-                                "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all",
-                                isActive(child.href)
-                                  ? "text-primary-700 font-semibold bg-primary-50"
-                                  : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                              )}
-                            >
-                              <UserRound className="size-3.5 flex-shrink-0" />
-                              {child.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                );
-              }
-
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href!}
-                    onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
-                      collapsed && "justify-center px-0",
-                      isActive(item.href!)
-                        ? "bg-primary-50 text-primary-700 font-semibold"
-                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                    )}
-                  >
-                    <item.icon className={cn("size-5 flex-shrink-0", isActive(item.href!) ? "text-primary-600" : "text-slate-400")} />
-                    {!collapsed && <span>{item.label}</span>}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          {visibleSections.map((section, idx) => (
+            <div key={section.role} className={cn(idx > 0 && "mt-4")}>
+              {/* Section header */}
+              {!collapsed && visibleSections.length > 1 && (
+                <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+                  {section.title}
+                </p>
+              )}
+              <ul className="flex flex-col gap-1">
+                {section.items.map(renderNavItem)}
+              </ul>
+            </div>
+          ))}
         </nav>
 
-        {/* Bottom */}
+        {/* Bottom user + logout */}
         <div className="px-3 pb-4">
           <Separator className="mb-3" />
           <div className={cn(
@@ -208,7 +258,9 @@ export default function Sidebar() {
             {!collapsed && (
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-slate-900 truncate">{displayName}</p>
-                <p className="text-xs text-slate-400 truncate">{user?.email}</p>
+                <p className="text-xs text-slate-400 truncate">
+                  {user?.roles?.join(", ")}
+                </p>
               </div>
             )}
           </div>

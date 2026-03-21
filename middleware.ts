@@ -6,11 +6,11 @@ type Role = "admin" | "candidate" | "interviewer";
 /** Route prefix → danh sách role được phép truy cập */
 const ROUTE_RULES: { prefix: string; allowedRoles: Role[] }[] = [
   { prefix: "/admin", allowedRoles: ["admin"] },
-  { prefix: "/candidate", allowedRoles: ["admin", "candidate"] },
+  { prefix: "/candidate", allowedRoles: ["admin", "candidate", "interviewer"] },
   { prefix: "/interviewer", allowedRoles: ["admin", "interviewer"] },
 ];
 
-/** Decode JWT payload (không verify signature — chỉ dùng để đọc role ở Edge) */
+/** Decode JWT payload (không verify signature — chỉ dùng để đọc roles ở Edge) */
 function decodeJwtPayload(token: string): Record<string, unknown> | null {
   try {
     const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
@@ -23,7 +23,6 @@ function decodeJwtPayload(token: string): Record<string, unknown> | null {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Match chính xác: /candidate, /candidate/..., nhưng KHÔNG match /candidates
   const matchedRule = ROUTE_RULES.find(
     (rule) => pathname === rule.prefix || pathname.startsWith(rule.prefix + "/")
   );
@@ -40,10 +39,13 @@ export function middleware(request: NextRequest) {
   }
 
   const payload = decodeJwtPayload(accessToken);
-  const role = payload?.role as Role | undefined;
 
-  // Đã đăng nhập nhưng role không có quyền → về trang chủ
-  if (!role || !matchedRule.allowedRoles.includes(role)) {
+  // Hỗ trợ cả roles[] (mới) và role string (cũ - fallback)
+  const roles = (payload?.roles as Role[] | undefined) ??
+    (payload?.role ? [payload.role as Role] : []);
+
+  // Không có role nào match → về trang chủ
+  if (!roles.some((r) => matchedRule.allowedRoles.includes(r))) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -53,4 +55,3 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico|api).*)"],
 };
-

@@ -18,7 +18,7 @@ export interface AuthUser {
   email: string;
   fullName?: string;
   avatarUrl?: string;
-  role: UserRole;
+  roles: UserRole[];
 }
 
 interface AuthContextValue {
@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
         email: data.email,
         fullName: data.fullName,
         avatarUrl: data.avatarUrl,
-        role: data.role as UserRole,
+        roles: (data.roles ?? [data.role]).filter(Boolean) as UserRole[],
       });
     } catch {
       clearTokens();
