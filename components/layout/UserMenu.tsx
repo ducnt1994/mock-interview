@@ -13,23 +13,32 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuth, type UserRole } from "@/hooks/useAuth";
 
+/** Priority: admin > interviewer > candidate */
+const ROLE_PRIORITY: UserRole[] = ["admin", "interviewer", "candidate"];
+
 /** Route dashboard tương ứng với từng role */
 const DASHBOARD_ROUTE: Record<UserRole, string> = {
   admin: "/admin/dashboard",
+  interviewer: "/interviewer/dashboard",
   candidate: "/candidate",
-  interviewer: "/candidate", // TODO: thay bằng /interviewer khi có trang
 };
 
 /** Label nút quản trị theo role */
 const DASHBOARD_LABEL: Record<UserRole, string> = {
   admin: "Quản trị",
+  interviewer: "Dashboard interviewer",
   candidate: "Trang cá nhân",
-  interviewer: "Trang cá nhân",
 };
+
+/** Lấy role ưu tiên cao nhất từ roles[] */
+function getPrimaryRole(roles: UserRole[]): UserRole {
+  return ROLE_PRIORITY.find((r) => roles.includes(r)) ?? "candidate";
+}
 
 export default function UserMenu() {
   const { user, loading, logout } = useAuth();
   const router = useRouter();
+  const primaryRole = user ? getPrimaryRole(user.roles) : "candidate";
 
   if (loading) {
     return (
@@ -90,10 +99,10 @@ export default function UserMenu() {
 
         <DropdownMenuItem
           className="cursor-pointer"
-          onClick={() => router.push(DASHBOARD_ROUTE[user.role])}
+          onClick={() => router.push(DASHBOARD_ROUTE[primaryRole])}
         >
           <LayoutDashboard className="size-4" />
-          {DASHBOARD_LABEL[user.role]}
+          {DASHBOARD_LABEL[primaryRole]}
         </DropdownMenuItem>
 
         <DropdownMenuItem
